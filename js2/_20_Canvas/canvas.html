@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+	
+</head>
+<body>
+<style>
+	canvas {
+		border:1px solid black;
+	}
+</style>
+
+<canvas id="draw" width="200" height="200"></canvas>
+
+<script>
+	var intervalID;
+
+	addEventListener('load', function(e){
+		intervalID = setInterval(draw,50);
+
+	});
+
+	var r = new Component(50,50,0,0);
+	var staticObj = new Component(50,50,150,150);
+
+	function draw() {
+		var canvas = document.getElementById('draw');
+		clear(canvas);
+		var ctx = canvas.getContext('2d');
+
+		ctx.fillRect(staticObj.x,staticObj.y,staticObj.width,staticObj.height);
+
+		ctx.fillRect(r.x,r.y,r.width,r.height);
+
+		if (r.collide(staticObj)) {
+			clearInterval(intervalID);
+			alert("COLLISION!");
+		}
+
+		r.newPos();
+	}
+
+
+	function Component(width,height,x,y) {
+		this.width = width;
+		this.height = height;
+		this.x = x;
+		this.y = y;
+
+		this.speedX = 1;
+		this.speedY = 1;
+
+		this.newPos = function() {
+			this.x += this.speedX;
+			this.y += this.speedY;
+		}
+
+		this.collide = function(obj) {
+			var myLeft = this.x;
+			var myRight = this.x + this.width;
+			var myTop = this.y;
+			var myBottom = this.y + this.height;
+
+			var otherLeft = obj.x;
+			var otherRight = obj.x + obj.width;
+			var otherTop = obj.y;
+			var otherBottom = obj.y + obj.height;
+
+			var crash = true;
+
+			if (
+					(myBottom < otherTop) ||
+					(myTop > otherBottom) ||
+					(myRight < otherLeft) ||
+					(myLeft > otherRight)
+				) {
+				crash = false;
+			}
+			return crash;
+		}
+
+	}
+
+	function clear(canvas) {
+		canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+	}
+</script>
+</body>
+</html>

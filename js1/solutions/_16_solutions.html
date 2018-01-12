@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+  <style>
+  	form {
+  		display: block;
+  	}
+  	form input{
+  		display: block;
+  		width:100%;
+  		margin-bottom: 1em;
+  	}
+
+  	form input[type=submit] {
+  		width: 20%;
+  	}
+
+  	#errors ul li {
+  		color:red;
+  	}
+  </style>
+  </head>
+  <body>
+  	<div id='contact'></div>
+  	<form name='contactForm'>
+  		<input type='text' name='fname' placeholder="First Name" />
+  		<input type='text' name='lname' placeholder='Last Name' />
+  		<input type='email' name='email' placeholder="Email" />
+  		<input type='text' name='street' placeholder="Street Address" />
+  		<input type='text' name='city' placeholder="City" />
+  		<input type='text' name='state' placeholder="ST" />
+  		<input type='text' name='zip' placeholder="Zip" />
+  		<input type='submit' name='submit' value='Create Contact' />
+  	</form>
+  	<div id='errors'>
+  	</div>
+
+  	<div id='states'>
+  		<button id='listStates'>List States</button>
+  	</div>
+
+
+  	<script src='_16_solutions.js'></script>
+  	<script src='_16_solutions2.js'></script>
+  </body>
+</html>
