@@ -12,9 +12,12 @@ let response = `Hello ${name}!` // Hello World!
 ```
 
 ### `let`, `const`
+
+http://2ality.com/2015/02/es6-scoping.html
+
 * `let` => block scoped
 
-* `const` => final
+* `const` => block scoped, immutable
 
 ### class
 
@@ -57,14 +60,34 @@ The constructor method is a special method for creating and initializing an obje
 The super keyword is used to call functions on an object's parent.
 
 ### Arrow Functions
+* aka 'fat arrows'
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 
 * fixes the `this` issue for methods
 
+* with no body, return is implicit
+
+```js
+const sum = (x,y) => x + y;
+```
+
+* with body, return is necessary
+
+```js
+const sum = (x,y) => {
+  return x + y;
+}
+```
+
+* assign named arrow functions to constants as good practice...HOWEVER, it is cumbersome and the assignment WILL NOT be hoisted like a function declaration. Either way will work, it's a style guide choice.
+
 ### `import` / `export`
 
 THIS WILL BE HARD TO DEMONSTRATE WITHOUT A BUILD TOOL / ENVIRONMENT TO ACT AS A MODULE LOADER
+
+http://exploringjs.com/es6/ch_modules.html --> too much information, but thorough
+
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
