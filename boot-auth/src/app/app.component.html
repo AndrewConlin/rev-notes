@@ -1,0 +1,13 @@
+<form *ngIf="!checkLogin()" #f="ngForm" (ngSubmit)="login(f)" novalidate>
+  <input type="text" name="username" placeholder="username" ngModel>
+  <input type="password" name="password" placeholder="password" ngModel>
+  <input type="submit" value="Login" />
+</form>
+
+<button *ngIf="checkLogin()" (click)="getMessages()">Get Messages</button>
+
+<div *ngFor="let mess of messages">
+  {{mess}}
+</div>
+
+<button *ngIf="checkLogin()" (click)="logout()">logout</button>
