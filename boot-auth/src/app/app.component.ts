@@ -1,6 +1,9 @@
+import { MessageService } from './message.service';
+import { AuthService } from './auth.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -12,48 +15,33 @@ export class AppComponent {
 
   messages: string[] = [];
 
-  constructor(private httpClient: HttpClient) {}
+  errors: string[] = [];
+
+  constructor(private httpClient: HttpClient, private authService: AuthService, private messageService: MessageService) {}
 
   login(form: NgForm) {
-    const token = this.generateBasicAuthToken(form.value.username, form.value.password);
-    const headers = new HttpHeaders()
-      .set('Authorization', `Basic ${token}`);
-    this.httpClient
-      .get('http://localhost:9001/authenticate', {headers})
-      .subscribe(
-        r => {
-          localStorage.setItem('token' , token);
-          console.log(r);
-          form.reset();
-        },
-        err => console.error(err));
+    this.authService.login(form.value.username, form.value.password)
+    .subscribe(
+      res => {
+        form.reset();
+      },
+      err => console.error(err));
+  }
+
+  userIsLoggedIn() {
+    return this.authService.checkLogin();
+  }
+
+  userLogout() {
+    this.authService.logout();
   }
 
   getMessages() {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('Authorization', `Basic ${token}`);
-    this.httpClient
-      .get('http://localhost:9001/api/message', {headers})
-      .subscribe(res => {
-        console.log(res);
-        this.messages = res;
-      });
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-  }
-
-  checkLogin() {
-    if (localStorage.getItem('token')) {
-      return true;
-    }
-    return false;
-  }
-
-  generateBasicAuthToken(username, password) {
-    return btoa(`${username}:${password}`);
+    this.messageService.getMessages()
+      .subscribe(
+        res => this.messages = res,
+        err => console.error(err)
+      );
   }
 
 }

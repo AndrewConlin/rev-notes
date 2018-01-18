@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service';
+import { MessageService } from './message.service';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { AuthService } from './auth.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
