@@ -34,6 +34,7 @@ export class AppComponent {
 
   userLogout() {
     this.authService.logout();
+    this.messages = [];
   }
 
   getMessages() {
