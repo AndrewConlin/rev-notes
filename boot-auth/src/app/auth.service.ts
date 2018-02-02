@@ -7,13 +7,17 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(username, password) {
+    // Make token
     const token = this.generateBasicAuthToken(username, password);
+    // Send token as Authorization header (this is spring security convention for basic auth)
     const headers = new HttpHeaders()
       .set('Authorization', `Basic ${token}`);
-    
+
+    // create request
     const request = this.httpClient
       .get('http://localhost:9001/authenticate', {headers})
-      
+
+    // subscribe/handle response
     request
     .subscribe(
       res => {
@@ -23,6 +27,7 @@ export class AuthService {
       err => console.error(err)
     )
 
+    // return request for additional subscription
     return request;
   }
 
@@ -37,12 +42,16 @@ export class AuthService {
     return false;
   }
 
+  /**
+    - This auth strategy uses basic auth, which is "username:password" base64 encoded
+    - btoa is a global function that encodes strings to base64
+  */
   generateBasicAuthToken(username, password) {
     return btoa(`${username}:${password}`);
   }
 
   getToken() {
-    return localStorage.getItem('token'); 
+    return localStorage.getItem('token');
   }
 
 

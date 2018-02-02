@@ -1,27 +1,30 @@
-# BootAuth
+# Boot Auth (Client)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
+* this application creates a service which talks to ./SDBootRest which provides httpBasic auth through Spring Security. This strategy is insecure (it's just HttpBasic so it uses the URL encoded username and password==>raw password as a token), but it gets the concept across relatively simply and could always be refactored later to use a Spring UserDetailsService with cryptographically secure JWT (much superior).
 
-## Development server
+* In the meantime, this is a 100% stateless solution, and provides AN authentication strategy. As such I would recommend using it with Angular.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Where is this configured on the Angular side?
 
-## Code scaffolding
+* configured in: ./src/app/auth.service.ts
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* used in: message.service.ts & app.component.ts
 
-## Build
+### Where is this configured on the Spring Boot side?
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+* security configuration: SDBootRest/src/main/java/com/bootrest/app/security/SecurityConfig.java
 
-## Running unit tests
+* Check out the `AuthenticationManagerBuilder` as it is using a custom query to determine the username/password viability from the dataSource
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* datasource config is in application.properties and references a user table that looks like this:
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```SQL
+CREATE TABLE `User` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(55) NOT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `password` varchar(255) NOT NULL,
+  `role` varchar(20) DEFAULT 'standard',
+  PRIMARY KEY (`id`)
+)
+```

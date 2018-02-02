@@ -12,7 +12,7 @@ export class MessageService {
     const token = this.authService.getToken();
     const headers = new HttpHeaders()
       .set('Authorization', `Basic ${token}`);
-    
+
     const request = this.httpClient
       .get('http://localhost:9001/api/message', {headers});
 
